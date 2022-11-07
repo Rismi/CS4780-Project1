@@ -6,12 +6,13 @@ public class CrackTripleSDES_Part3 {
         byte[] key2 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         byte[] plaintext;
         byte[] ciphertext = CrackSDES_Part3.strToByteArr(msg);
-        //decrypt the ciphertext for each possible pair of keys and convert the decrypted string to ascii
+        // decrypt the ciphertext for each possible pair of keys and convert the
+        // decrypted string to ascii
         for (int i = 0; i < 1024; i++) {
             for (int j = 0; j < 1024; j++) {
                 plaintext = TripleSDES_Part2.Decrypt(key1, key2, ciphertext);
                 String str = CASCII.toString(plaintext);
-                //if statement needs to be looked at for better output
+                // additional logic on top of punctuation deals with valid words
                 if (CrackSDES_Part3.hasValidPunctuation(str) && wordPercentRegex(str) && containsCommonWords(str)) {
                     System.out.print("key1: ");
                     CrackSDES_Part3.printArray(key1);
@@ -19,29 +20,29 @@ public class CrackTripleSDES_Part3 {
                     CrackSDES_Part3.printArray(key2);
                     System.out.println(str);
                 }
-                //increment key 1 to check all pairs with current key 2
+                // increment key 1 to check all pairs with current key 2
                 CrackSDES_Part3.binaryIncrement(key1);
             }
-            //increment key 2 after all key 1 for the current key 2 are done
+            // increment key 2 after all key 1 for the current key 2 are done
             CrackSDES_Part3.binaryIncrement(key2);
         }
     }
-    //used regex here but not sure if it works well
-    //it really just checks if each word is a bunch of letters and no punctuation
-    //gets close but there are still some garbage outputs along with the message
+
+    // just checks if each word is a bunch of letters and no invalid punctuation
+    // gets close but there are still some garbage outputs along with the message
     public static boolean wordPercentRegex(String s) {
         s = s.toUpperCase();
-        //split on spaces using regex
+        // split on spaces using regex
         String[] words = s.split("\\s+");
         int count = 0;
         int total = 0;
         for (String word : words) {
-            //check if word is all letters using regex
+            // check if word is all letters using regex for word character
             if (word.matches("^\\w+$"))
                 count++;
             total++;
         }
-        //true if valid words are above a determined percentage
+        // true if valid words are above a determined percentage
         double percentCorrect = ((double) count / total);
         if (percentCorrect < 0.85)
             return false;
@@ -49,17 +50,19 @@ public class CrackTripleSDES_Part3 {
             return true;
 
     }
-    //check if any of the preset common words are in the decrypted message
+
+    // check if any of the preset common words are in the decrypted message
     public static boolean containsCommonWords(String s) {
         s = s.toUpperCase();
-        //split on spaces using regex
+        // split on spaces using regex
         String[] words = s.split("\\s+");
-        //using top 5 words with 3 or more letters because 1/2 letters can be more easily obtained randomly
-        String[] top = {"THE", "AND", "THAT", "HAVE", "FOR"};
-        //for each word in the message check if that word is one of the preset common words
-        for(String w : words) {
-            for(String t : top) {
-                if(w.equals(t)) {
+        // using top 5 words with 3 or more letters because 1/2 letters can be more
+        // easily obtained randomly
+        String[] top = { "THE", "AND", "THAT", "HAVE", "FOR" };
+        // for each word in the message check if that word is one of the top words
+        for (String w : words) {
+            for (String t : top) {
+                if (w.equals(t)) {
                     return true;
                 }
             }

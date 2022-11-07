@@ -1,6 +1,6 @@
 public class TripleSDES_Part2 {
     public static void main(String[] args) {
-        //table to be filled out part 2
+        // table to be filled out part 2
         byte key1[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         byte key2[] = { 1, 0, 0, 0, 1, 0, 1, 1, 1, 0 };
         byte key3[] = { 0, 1, 1, 0, 1, 0, 1, 1, 1, 0 };
@@ -55,11 +55,15 @@ public class TripleSDES_Part2 {
         SDES_Part1.printArray(ciphertext4);
         System.out.println();
     }
-    //use the work from sdes to do the three step encryption following formula: E3DES(p) = EDES(k1,DDES(k2,EDES(k1, p)))
+
+    // use the work from sdes to do the three step encryption following formula:
+    // E3DES(p) = EDES(k1,DDES(k2,EDES(k1, p)))
     public static byte[] Encrypt(byte[] rawkey1, byte[] rawkey2, byte[] plaintext) {
         return SDES_Part1.Encrypt(rawkey1, SDES_Part1.Decrypt(rawkey2, SDES_Part1.Encrypt(rawkey1, plaintext)));
     }
-    //use the work from sdes to do the three step decryption following formula: D3DES(c) = DDES(k1,EDES(k2,DDES(k1, c)))
+
+    // use the work from sdes to do the three step decryption following formula:
+    // D3DES(c) = DDES(k1,EDES(k2,DDES(k1, c)))
     public static byte[] Decrypt(byte[] rawkey1, byte[] rawkey2, byte[] ciphertext) {
         return SDES_Part1.Decrypt(rawkey1, SDES_Part1.Encrypt(rawkey2, SDES_Part1.Decrypt(rawkey1, ciphertext)));
     }

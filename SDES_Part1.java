@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class SDES_Part1 {
     public static void main(String[] args) {
-        //table with all values given to check answers
+        // table with all values given to check answers
         byte[] key1 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         byte[] key2 = { 1, 1, 1, 0, 0, 0, 1, 1, 1, 0 };
         byte[] key3 = { 1, 1, 1, 0, 0, 0, 1, 1, 1, 0 };
@@ -32,8 +32,8 @@ public class SDES_Part1 {
         printArray(Decrypt(key4, ciphertext4));
         printArray(Encrypt(key4, plaintext4));
         System.out.println();
-        
-        //table to be filled out part 1
+
+        // table to be filled out part 1
         byte[] k1 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         byte[] k2 = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
         byte[] k3 = { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 };
@@ -86,16 +86,20 @@ public class SDES_Part1 {
         }
         System.out.print("\t");
     }
-    /* encrypt before adjusting for more than 8 bits for part 3
-    public static byte[] Encrypt(byte[] rawkey, byte[] plaintext) {
-        byte[] step1 = keyLS1(keyP10(rawkey));
-        byte[] key1 = keyP8(step1);
-        byte[] key2 = keyP8(keyLS1(keyLS1(step1)));
-        byte[] fk1 = fSubK(functionIP(plaintext), key1);
-        byte[] fk2 = fSubK(switchFunction(fk1), key2);
-        return inverseIP(fk2);
-    }*/
-    //modified encrypt to handle multiples of 8 bits for part 3, following the process in the instruction pdf
+
+    /*
+     * encrypt before adjusting for more than 8 bits for part 3
+     * public static byte[] Encrypt(byte[] rawkey, byte[] plaintext) {
+     * byte[] step1 = keyLS1(keyP10(rawkey));
+     * byte[] key1 = keyP8(step1);
+     * byte[] key2 = keyP8(keyLS1(keyLS1(step1)));
+     * byte[] fk1 = fSubK(functionIP(plaintext), key1);
+     * byte[] fk2 = fSubK(switchFunction(fk1), key2);
+     * return inverseIP(fk2);
+     * }
+     */
+    // modified encrypt to handle multiples of 8 bits for part 3, following the
+    // process in the instruction pdf
     public static byte[] Encrypt(byte[] rawkey, byte[] plaintext) {
         byte[] step1 = keyLS1(keyP10(rawkey));
         byte[] key1 = keyP8(step1);
@@ -112,16 +116,20 @@ public class SDES_Part1 {
         }
         return encrypted;
     }
-    /* decrypt before adjusting for more than 8 bits for part 3
-    public static byte[] Decrypt(byte[] rawkey, byte[] ciphertext) {
-        byte[] step1 = keyLS1(keyP10(rawkey));
-        byte[] key1 = keyP8(step1);
-        byte[] key2 = keyP8(keyLS1(keyLS1(step1)));
-        byte[] fk2 = fSubK(functionIP(ciphertext), key2);
-        byte[] fk1 = fSubK(switchFunction(fk2), key1);
-        return inverseIP(fk1);
-    }*/
-    //modified decrypt to handle multiples of 8 bits for part 3, following the process in the instruction pdf
+
+    /*
+     * decrypt before adjusting for more than 8 bits for part 3
+     * public static byte[] Decrypt(byte[] rawkey, byte[] ciphertext) {
+     * byte[] step1 = keyLS1(keyP10(rawkey));
+     * byte[] key1 = keyP8(step1);
+     * byte[] key2 = keyP8(keyLS1(keyLS1(step1)));
+     * byte[] fk2 = fSubK(functionIP(ciphertext), key2);
+     * byte[] fk1 = fSubK(switchFunction(fk2), key1);
+     * return inverseIP(fk1);
+     * }
+     */
+    // modified decrypt to handle multiples of 8 bits for part 3, following the
+    // process in the instruction pdf
     public static byte[] Decrypt(byte[] rawkey, byte[] ciphertext) {
         byte[] step1 = keyLS1(keyP10(rawkey));
         byte[] key1 = keyP8(step1);
@@ -138,7 +146,8 @@ public class SDES_Part1 {
         }
         return decrypted;
     }
-    //permutation 10 for keys
+
+    // permutation 10 for keys
     public static byte[] keyP10(byte[] inputKey) {
         byte[] permutedKey = new byte[10];
         permutedKey[0] = inputKey[2];
@@ -153,7 +162,8 @@ public class SDES_Part1 {
         permutedKey[9] = inputKey[5];
         return permutedKey;
     }
-    //left shift by 1 for keys
+
+    // left shift by 1 for keys
     public static byte[] keyLS1(byte[] inputKey) {
         byte[] leftShift1 = new byte[10];
         leftShift1[0] = inputKey[1];
@@ -168,7 +178,8 @@ public class SDES_Part1 {
         leftShift1[9] = inputKey[5];
         return leftShift1;
     }
-    //permutation 8 for keys
+
+    // permutation 8 for keys
     public static byte[] keyP8(byte[] inputKey) {
         byte[] permutedKey = new byte[8];
         permutedKey[0] = inputKey[5];
@@ -181,7 +192,8 @@ public class SDES_Part1 {
         permutedKey[7] = inputKey[8];
         return permutedKey;
     }
-    //initial permutation for plaintext
+
+    // initial permutation for plaintext
     public static byte[] functionIP(byte[] plaintext) {
         byte[] ip = new byte[8];
         ip[0] = plaintext[1];
@@ -194,7 +206,8 @@ public class SDES_Part1 {
         ip[7] = plaintext[6];
         return ip;
     }
-    //inverse initial permuation for end of algorithm
+
+    // inverse initial permuation for end of algorithm
     public static byte[] inverseIP(byte[] input) {
         byte[] ip = new byte[8];
         ip[0] = input[3];
@@ -207,7 +220,8 @@ public class SDES_Part1 {
         ip[7] = input[5];
         return ip;
     }
-    //xor operation on two byte arrays
+
+    // xor operation on two byte arrays
     public static byte[] bitXOR(byte[] x, byte[] y) {
         byte[] xor = new byte[x.length];
         for (int i = 0; i < x.length; i++) {
@@ -219,14 +233,16 @@ public class SDES_Part1 {
         }
         return xor;
     }
-    //combine two input arrays into one retaining the order
+
+    // combine two input arrays into one retaining the order
     public static byte[] combineArray(byte[] x, byte[] y) {
         byte[] combined = new byte[x.length + y.length];
         System.arraycopy(x, 0, combined, 0, x.length);
         System.arraycopy(y, 0, combined, x.length, y.length);
         return combined;
     }
-    //function f_k a combination of permuation and substitution functions
+
+    // function f_k a combination of permuation and substitution functions
     public static byte[] fSubK(byte[] input, byte[] key) {
         byte[] left4 = Arrays.copyOfRange(input, 0, 4);
         byte[] right4 = Arrays.copyOfRange(input, 4, input.length);
@@ -234,7 +250,8 @@ public class SDES_Part1 {
         byte[] combined = combineArray(xor, right4);
         return combined;
     }
-    //expansion/permuation operation
+
+    // expansion/permuation operation
     public static byte[] ep(byte[] number) {
         byte[] ep = new byte[8];
         ep[0] = number[3];
@@ -247,7 +264,8 @@ public class SDES_Part1 {
         ep[7] = number[0];
         return ep;
     }
-    //s box operation with s box 0
+
+    // s box operation with s box 0
     public static byte[] sBox0(byte[] row) {
         int[][] s0 = { { 1, 0, 3, 2 },
                 { 3, 2, 1, 0 },
@@ -272,7 +290,8 @@ public class SDES_Part1 {
         }
         return output;
     }
-    //s box operation with s box 1
+
+    // s box operation with s box 1
     public static byte[] sBox1(byte[] row) {
         int[][] s1 = { { 0, 1, 2, 3 },
                 { 2, 0, 1, 3 },
@@ -297,7 +316,8 @@ public class SDES_Part1 {
         }
         return output;
     }
-    //permuation 4 for after s boxes
+
+    // permuation 4 for after s boxes
     public static byte[] perm4(byte[] input) {
         byte[] output = new byte[4];
         output[0] = input[1];
@@ -306,7 +326,8 @@ public class SDES_Part1 {
         output[3] = input[0];
         return output;
     }
-    //mapping of f is part of f sub k for the left input
+
+    // mapping of f is part of f sub k for the left input
     public static byte[] mappingF(byte[] number, byte[] subkey) {
         byte[] xor = bitXOR(ep(number), subkey);
         byte[] firstRow = Arrays.copyOfRange(xor, 0, 4);
@@ -314,7 +335,8 @@ public class SDES_Part1 {
         byte[] combined = combineArray(sBox0(firstRow), sBox1(secondRow));
         return perm4(combined);
     }
-    //switch function interchanges left and right 4 bits
+
+    // switch function interchanges left and right 4 bits
     public static byte[] switchFunction(byte[] input) {
         byte[] output = new byte[8];
         output[0] = input[4];
