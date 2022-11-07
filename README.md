@@ -1,2 +1,3 @@
 # CS4780-Project1
-Using Visual Studio Code to run the programs. Part 3 cracking for TripleSDES incomplete here
+Compile: javac -target 8 -source 8 <filename>.java
+Run: java <filename>
