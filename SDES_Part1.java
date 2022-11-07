@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.Arrays;
 
 public class SDES_Part1 {
     public static void main(String[] args) {
@@ -32,6 +32,7 @@ public class SDES_Part1 {
         printArray(Decrypt(key4, ciphertext4));
         printArray(Encrypt(key4, plaintext4));
         System.out.println();
+        
         //table to be filled out part 1
         byte[] k1 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         byte[] k2 = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
